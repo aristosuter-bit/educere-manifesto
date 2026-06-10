@@ -1,0 +1,155 @@
+---
+import Base from "../../layouts/Base.astro";
+import CONTENT from "../../data/content.js";
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: "de" } },
+    { params: { lang: "fr" } },
+    { params: { lang: "it" } },
+  ];
+}
+
+const { lang } = Astro.params;
+const t = CONTENT[lang];
+
+// Build continuous principle numbering across groups
+let principleNum = 0;
+---
+
+<Base lang={lang}>
+  <!-- ── WORDMARK BLOCK ──────────────────── -->
+  <header class="wordmark-block">
+    <h1>
+      <span class="wordmark">{t.wordmark}</span><span class="dot"></span>
+    </h1>
+    <p class="subtitle">{t.subtitle}</p>
+    <p class="etymology">{t.etymology}</p>
+  </header>
+
+  <!-- ── PREAMBLE ────────────────────────── -->
+  <section class="preamble">
+    <h2>{t.preamble.heading}</h2>
+    <p>{t.preamble.p1}</p>
+    <p>{t.preamble.p2}</p>
+  </section>
+
+  <!-- ── THE MANIFESTO ───────────────────── -->
+  <section class="manifesto" id="manifesto">
+    <h2 class="manifesto-label">{t.manifesto.label}</h2>
+    <p class="manifesto-intro">{t.manifesto.intro}</p>
+
+    <div class="values-block">
+      {t.manifesto.values.map((v) => (
+        <div class="value-item">
+          <p class="value-left">{v.left}</p>
+          <p class="value-right">{t.manifesto.connector} {v.right}</p>
+        </div>
+      ))}
+    </div>
+
+    <p class="manifesto-closing">{t.manifesto.closing}</p>
+  </section>
+
+  <!-- ── PRINT LINK ──────────────────────── -->
+  <a href="#" class="print-link" id="print-link">{t.printLink}</a>
+
+  <!-- ── THE PRINCIPLES ──────────────────── -->
+  <section class="principles" id="principles">
+    <h2 class="principles-label">{t.principles.label}</h2>
+
+    {t.principles.groups.map((group) => (
+      <div class="principle-group">
+        <h3 class="principle-group-heading">{group.heading}</h3>
+        {group.items.map((item) => {
+          principleNum++;
+          return (
+            <div class="principle-item">
+              <span class="principle-num">{principleNum}</span>
+              <span class="principle-text">{item}</span>
+            </div>
+          );
+        })}
+      </div>
+    ))}
+  </section>
+
+  <!-- ── SIGN ────────────────────────────── -->
+  <section class="sign" id="sign">
+    <h2>{t.sign.heading}</h2>
+    <p class="sign-intro">{t.sign.line}</p>
+
+    <form class="sign-form" id="endorse-form" name="endorse" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+      <div style="display:none" aria-hidden="true"><input name="bot-field" /></div>
+      <input type="hidden" name="language" value={lang} />
+
+      <div class="form-row">
+        <label for="endorse-name">{t.sign.nameLabel}</label>
+        <input type="text" id="endorse-name" name="name" placeholder={t.sign.namePlaceholder} required autocomplete="name" />
+      </div>
+
+      <div class="form-row">
+        <label for="endorse-email">{t.sign.emailLabel}</label>
+        <input type="email" id="endorse-email" name="email" placeholder={t.sign.emailPlaceholder} autocomplete="email" />
+        <span class="field-note">{t.sign.emailNote}</span>
+      </div>
+
+      <div class="form-row">
+        <label for="endorse-role">{t.sign.roleLabel}</label>
+        <select id="endorse-role" name="role" required>
+          <option value="">{t.sign.roleLabel}</option>
+          {t.sign.roleOptions.map((opt) => (
+            <option value={opt}>{opt}</option>
+          ))}
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label for="endorse-canton">{t.sign.cantonLabel}</label>
+        <select id="endorse-canton" name="canton">
+          <option value="">{t.sign.cantonPlaceholder}</option>
+          {t.cantons.map((c) => (
+            <option value={c}>{c}</option>
+          ))}
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label for="endorse-comment">{t.sign.commentLabel}</label>
+        <textarea
+          id="endorse-comment"
+          name="comment"
+          placeholder={t.sign.commentPlaceholder}
+          maxlength="280"
+        ></textarea>
+        <span class="char-counter" id="comment-counter">0/280</span>
+      </div>
+
+      <div class="form-row form-checkbox">
+        <input type="checkbox" id="endorse-updates" name="updates" value="yes" />
+        <label for="endorse-updates">{t.sign.updatesLabel}</label>
+      </div>
+
+      <button type="submit" class="btn-submit">{t.sign.submit}</button>
+      <p class="privacy-note">{t.sign.privacy}</p>
+    </form>
+
+    <div class="thanks-state" id="thanks-state" role="status">
+      <p class="thanks-heading">{t.sign.thanks}</p>
+      <p class="thanks-msg">{t.sign.thanksMsg}</p>
+    </div>
+  </section>
+
+  <!-- ── SIGNATORIES ─────────────────────── -->
+  <section class="signatories" id="signatories">
+    <h2>{t.signatories.heading}</h2>
+    <p class="signatories-empty">{t.signatories.empty}</p>
+    <!--
+      TODO: When integrating a backend, render entries here:
+      <div class="signatory-entry">
+        <p class="signatory-name">Name, <span class="signatory-meta">Rolle, Kanton</span></p>
+        <p class="signatory-comment">"Comment"</p>
+      </div>
+    -->
+  </section>
+</Base>
