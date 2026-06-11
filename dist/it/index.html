@@ -8,7 +8,6 @@
 <meta property="og:title" content="Educere — Un manifesto delle e degli insegnanti per la scuola elementare">
 <meta property="og:description" content="Restituire all'insegnante tempo, fiducia e attenzione – perché ogni bambino sia pronto per il mondo.">
 <meta property="og:type" content="website">
-<!-- TODO: og:image (1200×630: paper background, dot, EDUCERE, subtitle) -->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='9' fill='%232E5A6E'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,32 +24,33 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 body{
   background:var(--paper);
   color:var(--ink);
   font-family:var(--serif);
-  font-size:20px;
+  font-size:clamp(17px,2.2vw,20px);
   line-height:1.65;
   -webkit-font-smoothing:antialiased;
 }
-.page{max-width:660px;margin:0 auto;padding:48px 24px 96px}
+.page{width:min(720px,92vw);margin:0 auto;padding:clamp(32px,5vw,48px) clamp(16px,3vw,24px) clamp(64px,8vw,96px)}
 
-/* ---------- top bar ---------- */
+/* top bar */
 .topbar{
   display:flex;justify-content:space-between;align-items:baseline;
   font-family:var(--sans);font-size:12px;letter-spacing:0.08em;
   color:var(--muted);text-transform:uppercase;margin-bottom:88px;
 }
 .topbar nav a{color:var(--muted);text-decoration:none;padding:4px 2px}
-.topbar nav a[aria-current="page"]{color:var(--ink);font-weight:500}
+.topbar nav a[aria-current]{color:var(--ink);font-weight:500}
 .topbar nav a:hover{color:var(--accent)}
 .topbar nav span{color:var(--hairline);padding:0 4px}
 
-/* ---------- wordmark ---------- */
+/* wordmark */
 .wordmark-block{margin-bottom:72px}
 .wordmark{
-  font-family:var(--sans);font-weight:500;font-size:34px;
+  font-family:var(--sans);font-weight:500;
+  font-size:clamp(26px,4.5vw,34px);
   letter-spacing:0.08em;color:var(--ink);
   display:inline-flex;align-items:center;
 }
@@ -60,7 +60,7 @@ body{
   position:relative;top:0.07em;
 }
 .subtitle{
-  font-family:var(--serif);font-size:21px;color:var(--ink);
+  font-family:var(--serif);font-size:clamp(17px,2.6vw,21px);color:var(--ink);
   margin-top:14px;
 }
 .etymology{
@@ -68,11 +68,20 @@ body{
   color:var(--muted);margin-top:10px;
 }
 
-/* ---------- preamble ---------- */
-.preamble p{max-width:58ch;margin-bottom:24px}
-.preamble{margin-bottom:80px}
+/* preamble */
+.preamble{margin-bottom:64px}
+.preamble summary{
+  font-family:var(--sans);font-size:12.5px;font-weight:500;
+  letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);
+  cursor:pointer;list-style:none;
+}
+.preamble summary::-webkit-details-marker{display:none}
+.preamble summary::before{content:'+ ';font-family:var(--sans);font-size:13px;color:var(--accent);margin-right:3px}
+.preamble[open] summary::before{content:'− '}
+.preamble-text{margin-top:18px}
+.preamble-text p{margin-bottom:20px}
 
-/* ---------- manifesto ---------- */
+/* manifesto */
 .manifesto{margin-bottom:96px}
 .manifesto .intro{max-width:58ch;margin-bottom:44px}
 .value{
@@ -82,11 +91,11 @@ body{
 }
 .value .left{
   font-family:var(--serif);font-weight:500;
-  font-size:27px;line-height:1.32;color:var(--ink);
+  font-size:clamp(21px,3.5vw,27px);line-height:1.32;color:var(--ink);
 }
 .value .right{
   font-family:var(--serif);font-style:italic;
-  font-size:17px;line-height:1.5;color:var(--muted);
+  font-size:clamp(15px,2vw,17px);line-height:1.5;color:var(--muted);
   margin-top:7px;
 }
 .manifesto .closing{
@@ -94,7 +103,7 @@ body{
   max-width:56ch;margin-top:48px;
 }
 
-/* ---------- principles ---------- */
+/* principles */
 .kicker{
   font-family:var(--sans);font-size:12.5px;font-weight:500;
   letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);
@@ -116,7 +125,7 @@ body{
 }
 .principle p{font-size:18px;max-width:56ch}
 
-/* ---------- print link ---------- */
+/* print link */
 .printlink{
   font-family:var(--sans);font-size:13px;letter-spacing:0.03em;
   color:var(--accent);background:none;border:none;cursor:pointer;
@@ -124,7 +133,7 @@ body{
 }
 .printlink:hover{color:var(--ink)}
 
-/* ---------- sign ---------- */
+/* sign */
 .sign{margin-bottom:96px}
 .sign .lede{margin-bottom:36px;max-width:56ch}
 .field{margin-bottom:24px}
@@ -144,7 +153,7 @@ input[type=text],input[type=email],select,textarea{
 }
 textarea{resize:vertical;min-height:88px;line-height:1.55}
 input::placeholder,textarea::placeholder{color:#9AA7B0;font-style:italic}
-input:focus,select:focus,textarea:focus,button:focus-visible,a:focus-visible{
+:focus-visible{
   outline:2px solid var(--accent);outline-offset:2px;
 }
 .counter{
@@ -170,7 +179,7 @@ input:focus,select:focus,textarea:focus,button:focus-visible,a:focus-visible{
 .thanks p:first-child{font-weight:500;font-size:24px;margin-bottom:8px}
 .honeypot{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 
-/* ---------- signatories ---------- */
+/* signatories */
 .signatories{margin-bottom:96px}
 .signatory{margin-bottom:26px}
 .signatory .who{font-size:18px}
@@ -181,7 +190,7 @@ input:focus,select:focus,textarea:focus,button:focus-visible,a:focus-visible{
 }
 .empty-state{font-style:italic;color:var(--muted);font-size:17px}
 
-/* ---------- footer ---------- */
+/* footer */
 footer{
   border-top:1px solid var(--hairline);padding-top:24px;
   font-family:var(--sans);font-size:12.5px;color:var(--muted);
@@ -191,15 +200,27 @@ footer a{color:var(--muted)}
 footer a:hover{color:var(--accent)}
 footer .langs{margin-top:6px}
 
-/* ---------- responsive ---------- */
-@media (max-width:520px){
-  body{font-size:18px}
-  .wordmark{font-size:27px}
-  .value .left{font-size:23px}
+/* responsive */
+@media(max-width:768px){
+  .page{width:min(720px,96vw)}
   .topbar{margin-bottom:60px}
+  .wordmark-block{margin-bottom:48px}
+  .value{padding-left:18px;margin-bottom:28px}
+}
+@media(max-width:480px){
+  body{font-size:clamp(16px,4vw,18px)}
+  .page{width:100%;padding:28px 16px 56px}
+  .wordmark{font-size:clamp(22px,7vw,28px)}
+  .value .left{font-size:clamp(19px,5.5vw,24px)}
+  .value .right{font-size:clamp(14px,4vw,16px)}
+  .manifesto .intro{max-width:none}
+  .principle{flex-direction:column;gap:4px}
+  .principle .num{flex:0 0 auto;text-align:left;font-size:14px}
+  .principle p{max-width:none}
+  .manifesto,.principles,.sign,.signatories{margin-bottom:64px}
 }
 
-/* ---------- print ---------- */
+/* print */
 @media print{
   body{background:#fff;font-size:12pt}
   .topbar,.sign,.signatories,footer,.printlink{display:none}
@@ -217,7 +238,7 @@ footer .langs{margin-top:6px}
   <header class="topbar">
     <span>Bozza di lavoro</span>
     <nav aria-label="Lingua">
-      <a href="/de/" lang="de">DE</a><span>/</span><a href="/fr/" lang="fr">FR</a><span>/</span><a href="/it/" aria-current="page" lang="it">IT</a>
+      <a href="/de/" lang="de">DE</a><span>/</span><a href="/fr/" lang="fr">FR</a><span>/</span><a href="/it/" aria-current>IT</a>
     </nav>
   </header>
 
@@ -227,15 +248,18 @@ footer .langs{margin-top:6px}
     <p class="etymology">educere (lat.) – condurre fuori, far emergere. L'origine della parola «educazione».</p>
   </section>
 
-  <section class="preamble">
+  <details class="preamble">
+    <summary>Perché ora?</summary>
+    <div class="preamble-text">
     <!-- TODO: native review -->
     <p>La scuola elementare è diventata, in silenzio, il luogo in cui convergono le pressioni di una società. Ogni anno si chiede di più agli insegnanti – con meno spazio per la sola cosa che conta davvero: conoscere un bambino, vederlo e far emergere il meglio di lui. Ciò che è scalabile – trasmettere contenuti, correggere compiti – divora la giornata. Ciò che non lo è – accompagnare un bambino nelle difficoltà – resta indietro.</p>
     <!-- TODO: native review -->
     <p>Questo manifesto è scritto dal punto di vista di chi può cambiare un'aula: le insegnanti e gli insegnanti. Vogliamo affidare la parte scalabile agli strumenti e restituire all'insegnante il tempo, la fiducia e l'attenzione che ogni bambino merita. L'obiettivo: un bambino pronto per il mondo – capace, curioso, resiliente e in grado di vivere e lavorare con gli altri.</p>
-  </section>
+    </div>
+  </details>
 
-  <section class="manifesto" aria-labelledby="manifest-heading">
-    <h2 id="manifest-heading" class="kicker">Il Manifesto</h2>
+  <section class="manifesto" aria-labelledby="mh">
+    <h2 id="mh" class="kicker">Il Manifesto</h2>
     <p class="intro">Siamo noi a fare questo lavoro. Facendolo – e osservando ciò che aiuta un bambino a diventare pronto per il mondo – abbiamo trovato modi migliori di insegnare. Diamo valore a:</p>
 
     <div class="value">
@@ -259,8 +283,8 @@ footer .langs{margin-top:6px}
     <p style="margin-top:28px"><button class="printlink" onclick="window.print()">Da stampare (A4)</button></p>
   </section>
 
-  <section class="principles" aria-labelledby="principles-heading">
-    <h2 id="principles-heading" class="kicker">I principi</h2>
+  <section class="principles" aria-labelledby="ph">
+    <h2 id="ph" class="kicker">I principi</h2>
 
     <h3 class="group-head">Aiutare ogni bambino a trovare la propria strada</h3>
     <div class="principle"><span class="num">1</span><p>Partiamo da dove il bambino si trova davvero – non da dove il programma lo immagina – e lo lasciamo procedere al suo ritmo: veloce dove gli riesce facile, con il tempo che serve dove è difficile. Un'unica linea di partenza e un unico ritmo non sono mai stati giusti per trenta bambini.</p></div>
@@ -283,11 +307,10 @@ footer .langs{margin-top:6px}
     <div class="principle"><span class="num">12</span><p>Custodiamo con fiducia ciò che apprendiamo di un bambino. Serve ad aiutarlo, mai a etichettarlo, e non deve mai diventare la gabbia in cui cresce.</p></div>
   </section>
 
-  <section class="sign" id="firmare" aria-labelledby="sign-heading">
-    <h2 id="sign-heading" class="kicker">Firmare il manifesto</h2>
+  <section class="sign" id="firmare" aria-labelledby="sh">
+    <h2 id="sh" class="kicker">Firmare il manifesto</h2>
     <p class="lede">Insegnanti, genitori – chiunque desideri questo per i propri figli.</p>
 
-    <!-- TODO: set the form action to your Netlify Forms / Formspree endpoint -->
     <form id="sign-form" method="POST" action="#" novalidate>
       <input type="hidden" name="language" value="it">
       <p class="honeypot" aria-hidden="true"><label>Lasciare vuoto<input type="text" name="website" tabindex="-1" autocomplete="off"></label></p>
@@ -296,13 +319,11 @@ footer .langs{margin-top:6px}
         <label for="f-name">Nome</label>
         <input type="text" id="f-name" name="name" required autocomplete="name" placeholder="Il suo nome">
       </div>
-
       <div class="field">
         <label for="f-email">E-mail (facoltativo)</label>
         <input type="email" id="f-email" name="email" autocomplete="email" placeholder="suo@email.ch">
         <p class="hint">non sarà condiviso</p>
       </div>
-
       <div class="field">
         <label for="f-role">Ruolo</label>
         <select id="f-role" name="role" required>
@@ -312,7 +333,6 @@ footer .langs{margin-top:6px}
           <option>Altro</option>
         </select>
       </div>
-
       <div class="field">
         <label for="f-canton">Cantone (facoltativo)</label>
         <select id="f-canton" name="canton">
@@ -320,13 +340,11 @@ footer .langs{margin-top:6px}
           <option>AG</option><option>AI</option><option>AR</option><option>BE</option><option>BL</option><option>BS</option><option>FR</option><option>GE</option><option>GL</option><option>GR</option><option>JU</option><option>LU</option><option>NE</option><option>NW</option><option>OW</option><option>SG</option><option>SH</option><option>SO</option><option>SZ</option><option>TG</option><option>TI</option><option>UR</option><option>VD</option><option>VS</option><option>ZG</option><option>ZH</option>
         </select>
       </div>
-
       <div class="field">
         <label for="f-comment">Perché firma? (facoltativo)</label>
         <textarea id="f-comment" name="comment" maxlength="280" placeholder="Una o due frasi – la sua voce apparirà accanto al suo nome."></textarea>
         <p class="counter"><span id="char-count">0</span> / 280</p>
       </div>
-
       <div class="checkbox-row">
         <input type="checkbox" id="f-updates" name="updates">
         <label for="f-updates" style="font-family:var(--serif);font-weight:400;font-size:16px;margin:0">Desidero essere informato/a sui prossimi passi.</label>
@@ -342,15 +360,14 @@ footer .langs{margin-top:6px}
     </div>
   </section>
 
-  <section class="signatories" aria-labelledby="signed-heading">
-    <h2 id="signed-heading" class="kicker">Firmato da</h2>
-
+  <section class="signatories" aria-labelledby="sih">
+    <h2 id="sih" class="kicker">Firmato da</h2>
     <p class="empty-state">Sia la prima o il primo a firmare.</p>
   </section>
 
   <footer>
     <p>Un manifesto aperto. Bozza di lavoro. Libero di condividere e adattare con attribuzione (CC&nbsp;BY).</p>
-    <p class="langs"><a href="/de/">Deutsch</a> · <a href="/fr/">Français</a> · <a href="/it/" aria-current="page">Italiano</a> · <button class="printlink" onclick="window.print()">Da stampare (A4)</button></p>
+    <p class="langs"><a href="/de/">Deutsch</a> · <a href="/fr/">Français</a> · <a href="/it/" aria-current>Italiano</a> · <button class="printlink" onclick="window.print()">Da stampare (A4)</button></p>
   </footer>
 
 </div>
