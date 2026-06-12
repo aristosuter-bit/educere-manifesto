@@ -12,6 +12,35 @@
   status = 301
   force = true
 
+# Language-aware root redirect (server-side, no flash).
+# First matching rule wins; German is the default.
+[[redirects]]
+  from = "/"
+  to = "/fr/"
+  status = 302
+  force = true
+  conditions = {Language = ["fr"]}
+
+[[redirects]]
+  from = "/"
+  to = "/it/"
+  status = 302
+  force = true
+  conditions = {Language = ["it"]}
+
+[[redirects]]
+  from = "/"
+  to = "/en/"
+  status = 302
+  force = true
+  conditions = {Language = ["en"]}
+
+[[redirects]]
+  from = "/"
+  to = "/de/"
+  status = 302
+  force = true
+
 [[headers]]
   for = "/*"
   [headers.values]

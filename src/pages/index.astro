@@ -1,3 +1,23 @@
-<meta http-equiv="refresh" content="0;url=/de/" />
-<script>location.href="/de/";</script>
-<a href="/de/">Educere</a>
+---
+// Fallback only: on Netlify, the language-aware server-side redirect in
+// netlify.toml handles "/" before this page is ever served.
+---<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="refresh" content="0;url=/de/" />
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href="/de/" />
+    <title>Educere</title>
+    <style>
+      html { background: #f6f1e6; }
+      body { margin: 0; }
+      a { position: absolute; left: -9999px; }
+    </style>
+    <script>location.replace("/de/");</script>
+  </head>
+  <body>
+    <a href="/de/">Educere</a>
+  </body>
+</html>
