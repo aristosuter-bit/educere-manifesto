@@ -1007,25 +1007,51 @@ const LANGS = Object.keys(CONTENT);
         });
       }
 
-      // Form submit → thank-you state
+      // The form POSTs natively to Netlify (required for the Netlify-managed
+      // reCAPTCHA) and redirects back with ?signed=1 — show the thank-you state.
       const form = document.getElementById("endorse-form");
       const thanks = document.getElementById("thanks-state");
-      if (form) {
-        form.addEventListener("submit", (e) => {
-          e.preventDefault();
-          // TODO: Real endpoint — see BUILD-NOTES.md
-          form.style.display = "none";
-          if (thanks) thanks.classList.add("visible");
-          // Still submit to Netlify in background.
-          // POST to the current page path — "/" is intercepted by the
-          // language redirect rules in netlify.toml.
-          const fd = new FormData(form);
-          fetch(location.pathname, {
-            method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: new URLSearchParams(fd).toString(),
-          }).catch(() => {});
-        });
+      if (form && thanks && new URLSearchParams(location.search).has("signed")) {
+        form.style.display = "none";
+        thanks.classList.add("visible");
+      }
+
+      // Live signatories list (names are public by design; emails never leave
+      // the serverless function).
+      const list = document.getElementById("signatories-list");
+      const emptyMsg = document.getElementById("signatories-empty");
+      if (list) {
+        fetch("/.netlify/functions/signatories")
+          .then((r) => (r.ok ? r.json() : []))
+          .then((entries) => {
+            if (!Array.isArray(entries) || entries.length === 0) return;
+            if (emptyMsg) emptyMsg.style.display = "none";
+            for (const e of entries) {
+              const entry = document.createElement("div");
+              entry.className = "signatory-entry";
+
+              const nameLine = document.createElement("p");
+              nameLine.className = "signatory-name";
+              nameLine.textContent = e.name;
+              const meta = [e.role, e.canton].filter(Boolean).join(", ");
+              if (meta) {
+                const metaSpan = document.createElement("span");
+                metaSpan.className = "signatory-meta";
+                metaSpan.textContent = ` — ${meta}`;
+                nameLine.appendChild(metaSpan);
+              }
+              entry.appendChild(nameLine);
+
+              if (e.comment) {
+                const c = document.createElement("p");
+                c.className = "signatory-comment";
+                c.textContent = e.comment;
+                entry.appendChild(c);
+              }
+              list.appendChild(entry);
+            }
+          })
+          .catch(() => {});
       }
 
       // Print link

@@ -121,7 +121,9 @@ let principleNum = 0;
         id="endorse-form"
         name="endorse"
         method="POST"
+        action={`/${lang}/?signed=1#sign`}
         data-netlify="true"
+        data-netlify-recaptcha="true"
         netlify-honeypot="bot-field"
       >
         <div style="display:none" aria-hidden="true"><input name="bot-field" /></div>
@@ -175,6 +177,10 @@ let principleNum = 0;
           <label for="endorse-updates">{t.sign.updatesLabel}</label>
         </div>
 
+        <div class="form-row span-2 form-captcha">
+          <div data-netlify-recaptcha="true"></div>
+        </div>
+
         <div class="form-actions">
           <button type="submit" class="btn-submit">{t.sign.submit}</button>
           <p class="privacy-note">{t.sign.privacy}</p>
@@ -192,14 +198,9 @@ let principleNum = 0;
   <section class="signatories" id="signatories">
     <div class="wrap">
       <h2 class="section-label reveal">{t.signatories.heading}</h2>
-      <p class="signatories-empty reveal">{t.signatories.empty}</p>
-      <!--
-        TODO: When integrating a backend, render entries here:
-        <div class="signatory-entry">
-          <p class="signatory-name">Name, <span class="signatory-meta">Rolle, Kanton</span></p>
-          <p class="signatory-comment">"Comment"</p>
-        </div>
-      -->
+      <p class="signatories-empty reveal" id="signatories-empty">{t.signatories.empty}</p>
+      <!-- Filled client-side from /.netlify/functions/signatories -->
+      <div id="signatories-list" class="reveal"></div>
     </div>
   </section>
 </Base>
