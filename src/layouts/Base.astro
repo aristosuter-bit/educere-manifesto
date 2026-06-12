@@ -826,9 +826,17 @@ const LANGS = Object.keys(CONTENT);
         .header-right {
           gap: 0.75rem;
         }
+        /* The draft status remains visible in the footer text; the pill
+           doesn't fit next to four languages on narrow screens. */
         .draft-tag {
-          font-size: 0.5625rem;
-          padding: 0.25em 0.7em;
+          display: none;
+        }
+        .lang-switcher {
+          font-size: 0.625rem;
+          letter-spacing: 0.08em;
+        }
+        .lang-switcher a {
+          padding: 0.35em 0.4em;
         }
         .principle-item {
           grid-template-columns: 1.75rem minmax(0, 1fr);
