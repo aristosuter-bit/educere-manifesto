@@ -1016,9 +1016,15 @@ const LANGS = Object.keys(CONTENT);
           // TODO: Real endpoint — see BUILD-NOTES.md
           form.style.display = "none";
           if (thanks) thanks.classList.add("visible");
-          // Still submit to Netlify in background
+          // Still submit to Netlify in background.
+          // POST to the current page path — "/" is intercepted by the
+          // language redirect rules in netlify.toml.
           const fd = new FormData(form);
-          fetch("/", { method: "POST", headers: { Accept: "application/x-www-form-urlencoded" }, body: new URLSearchParams(fd).toString() }).catch(() => {});
+          fetch(location.pathname, {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams(fd).toString(),
+          }).catch(() => {});
         });
       }
 
