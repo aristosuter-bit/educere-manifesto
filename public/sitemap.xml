@@ -2,21 +2,21 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://www.educere-manifesto.org/de/</loc>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.educere-manifesto.org/de/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.educere-manifesto.org/fr/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.educere-manifesto.org/it/"/>
+    <loc>https://www.educeremanifesto.org/de/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.educeremanifesto.org/de/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.educeremanifesto.org/fr/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.educeremanifesto.org/it/"/>
   </url>
   <url>
-    <loc>https://www.educere-manifesto.org/fr/</loc>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.educere-manifesto.org/de/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.educere-manifesto.org/fr/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.educere-manifesto.org/it/"/>
+    <loc>https://www.educeremanifesto.org/fr/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.educeremanifesto.org/de/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.educeremanifesto.org/fr/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.educeremanifesto.org/it/"/>
   </url>
   <url>
-    <loc>https://www.educere-manifesto.org/it/</loc>
-    <xhtml:link rel="alternate" hreflang="de" href="https://www.educere-manifesto.org/de/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.educere-manifesto.org/fr/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://www.educere-manifesto.org/it/"/>
+    <loc>https://www.educeremanifesto.org/it/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.educeremanifesto.org/de/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.educeremanifesto.org/fr/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.educeremanifesto.org/it/"/>
   </url>
 </urlset>

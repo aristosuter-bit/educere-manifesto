@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://educere.ch/sitemap.xml
+Sitemap: https://www.educeremanifesto.org/sitemap.xml

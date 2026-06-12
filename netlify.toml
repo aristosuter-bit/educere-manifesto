@@ -7,8 +7,8 @@
 
 # Redirect apex → www (primary domain)
 [[redirects]]
-  from = "https://educere-manifesto.org/*"
-  to = "https://www.educere-manifesto.org/:splat"
+  from = "https://educeremanifesto.org/*"
+  to = "https://www.educeremanifesto.org/:splat"
   status = 301
   force = true
 
