@@ -467,6 +467,157 @@ const CONTENT = {
       "Zurigo",
     ],
   },
+
+  // ══════════════════════════════════════════
+  // ENGLISH
+  // ══════════════════════════════════════════
+  en: {
+    lang: "en",
+    langLabel: "EN",
+    dir: "ltr",
+
+    wordmark: "EDUCERE",
+    name: "Educere",
+    subtitle: "A teachers' manifesto for primary school",
+    tagline:
+      "Reclaiming the teacher's time, trust and focus – so that every child is ready for the world.",
+    draft: "Working draft",
+    etymology:
+      "educere (Latin) – to lead out, to draw forth. The root of the word “education”.",
+
+    preamble: {
+      heading: "Why this manifesto",
+      p1: "Primary school has quietly become the place where a society's pressures converge. Every year, teachers are tasked with more – and have ever less room for the one thing that matters most: knowing a child, seeing them, and bringing out the best in them. What scales – delivering content, correcting work – devours the day. What does not scale – coaching a child through difficulty – is left undone.",
+      p2: "This manifesto is written from the perspective of those who can change a classroom: the teachers. We want to hand the scalable part over to tools and give teachers back the time, the trust and the focus that every child deserves. The goal: a child who is ready for the world – capable, curious, resilient, and able to live and work with others.",
+    },
+
+    manifesto: {
+      label: "The Manifesto",
+      intro:
+        "We are the ones doing this work. By doing it – and by watching what helps a child become ready for the world – we have found better ways to teach. We value:",
+      connector: "over",
+      values: [
+        {
+          left: "Helping every child find their own way forward",
+          right: "leading them all down a path we set",
+        },
+        {
+          left: "Accompanying the child in front of us",
+          right: "teaching the class as a whole",
+        },
+        {
+          left: "Letting children struggle and grow strong",
+          right: "sparing them",
+        },
+        {
+          left: "Showing children how far they have come",
+          right: "grading where they stand in comparison",
+        },
+      ],
+      closing:
+        "There were good reasons for the way we used to teach. Through the work itself, we have come to teach this way instead.",
+    },
+
+    principles: {
+      label: "The Principles",
+      groups: [
+        {
+          heading: "Helping every child find their own way",
+          items: [
+            "We start where the child truly is – not where the curriculum assumes – and let them move at their own pace: racing ahead where it comes easily, taking time where it is hard. One starting line and one pace were never right for thirty children.",
+            "We teach children to steer for themselves: to choose, to try, to ask for what they need. A child who can direct their own learning never stops learning.",
+          ],
+        },
+        {
+          heading: "Accompanying the child in front of us",
+          items: [
+            "We hand over everything that does not need a human – and keep what no machine will ever manage: truly seeing a child, trusting them, and walking with them through difficulty. Our attention belongs to the child, not to the day.",
+            "We do our best work for children who know that we know them. The relationship is not the prelude to learning; it is how learning happens.",
+            "We see the whole child, not just their work – the frustration behind a wrong answer, the fear behind a quiet child – because that is the part no one else sees.",
+          ],
+        },
+        {
+          heading: "Letting children struggle and grow strong",
+          items: [
+            "We expect much, because children become what we believe of them – and we refuse to ask less of a child simply because less was asked of them before.",
+            "We let the task be truly hard and stay with the child while it is. Struggle does not mean we are abandoning them; it is what we teach.",
+            "We guard the joy. The deepest joy a child finds in school is mastering something that was truly hard – and we never trade it for comfort or empty praise.",
+            "We teach resilience, concentration and the courage to begin again as carefully as we teach reading and arithmetic – they are the heart of the work, not the luck of a few.",
+            "We let children figure out how to get along with one another – to argue, to negotiate, to make up again – because learning to live with others is part of what they are here for.",
+          ],
+        },
+        {
+          heading: "Showing children how far they have come",
+          items: [
+            "We measure to light up the next step, never to fix who a child is. What we assess points forward, not down – and the child always sees where they stand and what comes next.",
+            "We hold what we learn about a child in trust. It exists to help them, never to label them, and must never become the cage they grow up in.",
+          ],
+        },
+      ],
+    },
+
+    sign: {
+      heading: "Sign the manifesto",
+      line: "Teachers, parents – everyone who wants this for their children.",
+      nameLabel: "Name",
+      namePlaceholder: "Your name",
+      emailLabel: "E-mail (optional)",
+      emailPlaceholder: "your@email.ch",
+      emailNote: "will not be shared",
+      roleLabel: "Role",
+      roleOptions: ["Teacher", "Parent", "Other"],
+      cantonLabel: "Canton (optional)",
+      cantonPlaceholder: "Choose canton",
+      commentLabel: "Why are you signing? (optional)",
+      commentPlaceholder:
+        "A sentence or two – your voice will appear next to your name.",
+      updatesLabel:
+        "I would like to be kept informed about next steps.",
+      privacy:
+        "We collect only what is necessary, use it solely for this manifesto, and delete it on request.",
+      submit: "Sign",
+      thanks: "Thank you.",
+      thanksMsg: "Your signature has been recorded.",
+    },
+
+    signatories: {
+      heading: "Signed by",
+      empty: "Be the first to put your name to it.",
+    },
+
+    printLink: "Print version (A4)",
+    footer:
+      "An open manifesto. Working draft. Free to share and adapt with attribution (CC BY).",
+
+    cantons: [
+      "Aargau",
+      "Appenzell Ausserrhoden",
+      "Appenzell Innerrhoden",
+      "Basel-Landschaft",
+      "Basel-Stadt",
+      "Bern",
+      "Fribourg",
+      "Geneva",
+      "Glarus",
+      "Graubünden",
+      "Jura",
+      "Lucerne",
+      "Neuchâtel",
+      "Nidwalden",
+      "Obwalden",
+      "Schaffhausen",
+      "Schwyz",
+      "Solothurn",
+      "St. Gallen",
+      "Ticino",
+      "Thurgau",
+      "Uri",
+      "Vaud",
+      "Valais",
+      "Zug",
+      "Zurich",
+    ],
+  },
 };
 
 export default CONTENT;
