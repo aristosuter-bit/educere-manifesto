@@ -197,7 +197,10 @@ let principleNum = 0;
   <!-- ── SIGNATORIES ─────────────────────── -->
   <section class="signatories" id="signatories">
     <div class="wrap">
-      <h2 class="section-label reveal">{t.signatories.heading}</h2>
+      <h2 class="section-label reveal">
+        {t.signatories.heading}
+        <span class="signatories-count" id="signatories-count" hidden></span>
+      </h2>
       <p class="signatories-empty reveal" id="signatories-empty">{t.signatories.empty}</p>
       <!-- Filled client-side from /.netlify/functions/signatories -->
       <div id="signatories-list" class="reveal"></div>

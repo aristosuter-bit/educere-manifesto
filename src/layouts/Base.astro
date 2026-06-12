@@ -701,6 +701,17 @@ const LANGS = Object.keys(CONTENT);
         color: var(--muted);
         font-style: italic;
       }
+      .signatories-count {
+        font-family: var(--font-display);
+        font-style: italic;
+        font-weight: 430;
+        font-size: 1.5rem;
+        line-height: 1;
+        color: var(--amber);
+        letter-spacing: 0;
+        text-transform: none;
+        margin-left: 0.25rem;
+      }
       .signatory-entry {
         margin-bottom: 1.5rem;
         max-width: var(--measure);
@@ -1034,6 +1045,11 @@ const LANGS = Object.keys(CONTENT);
           .then((entries) => {
             if (!Array.isArray(entries) || entries.length === 0) return;
             if (emptyMsg) emptyMsg.style.display = "none";
+            const count = document.getElementById("signatories-count");
+            if (count) {
+              count.textContent = String(entries.length);
+              count.hidden = false;
+            }
             for (const e of entries) {
               const entry = document.createElement("div");
               entry.className = "signatory-entry";
