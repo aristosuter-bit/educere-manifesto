@@ -7,7 +7,6 @@ export interface Props {
 
 const { lang } = Astro.props;
 const t = CONTENT[lang];
-const otherLangs = ["de", "fr", "it"].filter((l) => l !== lang);
 ---
 
 <!doctype html>
@@ -36,7 +35,7 @@ const otherLangs = ["de", "fr", "it"].filter((l) => l !== lang);
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Archivo:wght@500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..650;1,9..144,300..650&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=Archivo:wght@500;600&display=swap"
       rel="stylesheet"
     />
 
@@ -53,15 +52,28 @@ const otherLangs = ["de", "fr", "it"].filter((l) => l !== lang);
       }
 
       :root {
-        --ink: #1f2d3a;
-        --accent: #2e5a6e;
-        --muted: #5b6b78;
-        --hairline: #c9d3d9;
-        --paper: #fbfaf7;
+        /* Palette — warm paper, pine green, one amber accent */
+        --paper: #f6f1e6;
+        --paper-deep: #eee6d4;
+        --ink: #21261f;
+        --muted: #6b6f60;
+        --hairline: #d8cfba;
+        --green: #2c5240;
+        --green-deep: #1d3a2c;
+        --green-night: #16291f;
+        --cream: #f3edda;
+        --cream-dim: rgba(243, 237, 218, 0.62);
+        --amber: #c8842e;
+
+        --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
         --font-body: "Newsreader", Georgia, serif;
         --font-ui: "Archivo", system-ui, sans-serif;
-        --measure: 65ch;
-        --body-size: clamp(1.125rem, 1.05rem + 0.3vw, 1.3125rem); /* 18–21px */
+
+        --measure: 64ch;
+        --wrap: 70rem;
+        --body-size: clamp(1.125rem, 1.05rem + 0.3vw, 1.3125rem);
+        --pad-x: clamp(1.25rem, 4vw, 3rem);
+        --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
       }
 
       html {
@@ -72,551 +84,907 @@ const otherLangs = ["de", "fr", "it"].filter((l) => l !== lang);
         line-height: 1.65;
         -webkit-font-smoothing: antialiased;
         text-rendering: optimizeLegibility;
+        scroll-behavior: smooth;
       }
 
       body {
-        max-width: var(--measure);
-        margin: 0 auto;
-        padding: 4rem 1.5rem 6rem;
+        margin: 0;
+        overflow-x: clip;
       }
 
-      /* ── WORDMARK ──────────────────────── */
-      .wordmark {
-        font-family: var(--font-ui);
-        font-weight: 500;
-        font-size: 0.75rem;
-        letter-spacing: 0.08em;
-        color: var(--ink);
-        text-transform: uppercase;
+      ::selection {
+        background: var(--green);
+        color: var(--cream);
       }
-      .wordmark + .dot {
-        width: 0.32em;
-        height: 0.32em;
-        border-radius: 50%;
-        background: var(--accent);
-        display: inline-block;
-        margin-left: 0.3em;
-        vertical-align: middle;
-        margin-bottom: 0.05em;
+
+      /* Paper grain over everything */
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 60;
+        pointer-events: none;
+        opacity: 0.05;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+        background-size: 180px 180px;
+      }
+
+      .wrap {
+        max-width: var(--wrap);
+        margin-inline: auto;
+        padding-inline: var(--pad-x);
+      }
+
+      .prose {
+        max-width: var(--measure);
+      }
+
+      /* ── SECTION LABELS ────────────────── */
+      .section-label {
+        font-family: var(--font-ui);
+        font-weight: 600;
+        font-size: 0.6875rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--green);
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+      .section-label::before {
+        content: "";
+        width: 2rem;
+        height: 1px;
+        background: var(--green);
+        flex-shrink: 0;
       }
 
       /* ── HEADER ────────────────────────── */
       .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: color-mix(in srgb, var(--paper) 86%, transparent);
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--hairline);
+      }
+      .site-header .wrap {
         display: flex;
         justify-content: space-between;
-        align-items: flex-start;
-        margin-bottom: 5rem;
+        align-items: center;
+        min-height: 3.25rem;
+      }
+      .header-brand {
+        font-family: var(--font-display);
+        font-weight: 550;
+        font-size: 0.95rem;
+        letter-spacing: 0.06em;
+        color: var(--ink);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: baseline;
+        gap: 0.05em;
+      }
+      .header-brand .dot {
+        width: 0.3em;
+        height: 0.3em;
+        border-radius: 50%;
+        background: var(--amber);
+        display: inline-block;
+      }
+      .header-right {
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
       }
       .draft-tag {
         font-family: var(--font-ui);
+        font-weight: 500;
         font-size: 0.625rem;
-        letter-spacing: 0.06em;
+        letter-spacing: 0.12em;
         text-transform: uppercase;
         color: var(--muted);
+        border: 1px solid var(--hairline);
+        border-radius: 999px;
+        padding: 0.3em 0.85em;
+        white-space: nowrap;
       }
       .lang-switcher {
         display: flex;
-        gap: 0;
+        align-items: center;
+        gap: 0.1rem;
         font-family: var(--font-ui);
-        font-size: 0.625rem;
-        letter-spacing: 0.06em;
+        font-weight: 500;
+        font-size: 0.6875rem;
+        letter-spacing: 0.1em;
       }
       .lang-switcher a {
         color: var(--muted);
         text-decoration: none;
-        padding: 0.15em 0.4em;
-        border-radius: 2px;
-        transition: color 0.15s;
+        padding: 0.35em 0.5em;
+        position: relative;
+        transition: color 0.2s;
       }
       .lang-switcher a:hover,
       .lang-switcher a:focus-visible {
         color: var(--ink);
       }
       .lang-switcher a[aria-current="page"] {
-        color: var(--accent);
+        color: var(--green);
+      }
+      .lang-switcher a[aria-current="page"]::after {
+        content: "";
+        position: absolute;
+        left: 0.5em;
+        right: 0.5em;
+        bottom: 0.05em;
+        height: 2px;
+        background: var(--amber);
       }
       .lang-switcher span {
         color: var(--hairline);
-        padding: 0.15em 0;
       }
 
-      /* ── WORDMARK BLOCK ────────────────── */
-      .wordmark-block {
-        margin-bottom: 1.75rem;
-        text-align: left;
+      /* ── HERO ──────────────────────────── */
+      .hero {
+        position: relative;
+        padding-block: clamp(4.5rem, 12vh, 8.5rem) clamp(4rem, 10vh, 7rem);
+        overflow: clip;
       }
-      .wordmark-block .subtitle {
+      .hero-arcs {
+        position: absolute;
+        right: max(-6rem, -8vw);
+        bottom: -32%;
+        width: clamp(20rem, 46vw, 42rem);
+        height: auto;
+        color: var(--green);
+        opacity: 0.12;
+        pointer-events: none;
+      }
+      .hero-inner {
+        position: relative;
+      }
+      .hero-subtitle {
         font-family: var(--font-ui);
-        font-size: 0.6875rem;
-        letter-spacing: 0.04em;
-        color: var(--muted);
-        margin-top: 0.5rem;
+        font-weight: 600;
+        font-size: clamp(0.6875rem, 0.65rem + 0.2vw, 0.8125rem);
+        letter-spacing: 0.22em;
         text-transform: uppercase;
+        color: var(--green);
+        margin-bottom: clamp(1.25rem, 3vh, 2rem);
+        max-width: 40ch;
+        line-height: 1.7;
       }
-      .wordmark-block .etymology {
+      .hero-wordmark {
+        font-family: var(--font-display);
+        font-optical-sizing: auto;
+        font-weight: 470;
+        font-size: clamp(3.4rem, 13.5vw, 10.5rem);
+        line-height: 0.95;
+        letter-spacing: -0.015em;
+        color: var(--ink);
+        display: flex;
+        align-items: baseline;
+        gap: 0.04em;
+      }
+      .hero-wordmark .dot {
+        width: 0.13em;
+        height: 0.13em;
+        border-radius: 50%;
+        background: var(--amber);
+        flex-shrink: 0;
+      }
+      .hero-etymology {
         font-family: var(--font-body);
-        font-size: 0.8125rem;
         font-style: italic;
+        font-size: clamp(0.9375rem, 0.9rem + 0.25vw, 1.125rem);
         color: var(--muted);
-        margin-top: 0.35rem;
+        margin-top: clamp(1rem, 2.5vh, 1.75rem);
+      }
+      .hero-rule {
+        border: none;
+        border-top: 1px solid var(--hairline);
+        margin-block: clamp(2rem, 5vh, 3.25rem);
+        position: relative;
+      }
+      .hero-rule::after {
+        content: "";
+        position: absolute;
+        top: -1px;
+        left: 0;
+        width: 6rem;
+        height: 1px;
+        background: var(--amber);
+      }
+      .hero-tagline {
+        font-family: var(--font-display);
+        font-weight: 380;
+        font-size: clamp(1.5rem, 1.1rem + 2.2vw, 2.625rem);
+        line-height: 1.25;
+        color: var(--ink);
+        max-width: 24em;
+        text-wrap: balance;
       }
 
       /* ── PREAMBLE ──────────────────────── */
       .preamble {
-        margin-bottom: 4rem;
+        padding-block: clamp(3.5rem, 8vh, 6rem);
+        border-top: 1px solid var(--hairline);
       }
-      .preamble h2 {
-        font-family: var(--font-ui);
-        font-size: 0.6875rem;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        color: var(--accent);
-        margin-bottom: 1.25rem;
-        font-weight: 500;
+      .preamble-grid {
+        display: grid;
+        grid-template-columns: minmax(12rem, 1fr) minmax(0, 2.2fr);
+        gap: clamp(1.5rem, 4vw, 4rem);
+        align-items: start;
+      }
+      .preamble .section-label {
+        position: sticky;
+        top: 5rem;
       }
       .preamble p {
-        margin-bottom: 1em;
-        color: var(--ink);
+        max-width: var(--measure);
+        margin-bottom: 1.2em;
       }
-      .preamble p + p {
-        text-indent: 0;
+      .preamble p:last-child {
+        margin-bottom: 0;
+      }
+      .preamble p:first-of-type::first-letter {
+        font-family: var(--font-display);
+        font-weight: 500;
+        font-size: 3.6em;
+        line-height: 0.82;
+        float: left;
+        padding-right: 0.12em;
+        padding-top: 0.06em;
+        color: var(--green);
       }
 
       /* ── MANIFESTO ─────────────────────── */
       .manifesto {
-        margin-bottom: 5rem;
+        background: var(--paper-deep);
+        border-block: 1px solid var(--hairline);
+        padding-block: clamp(3.5rem, 9vh, 6.5rem);
+        position: relative;
+        overflow: clip;
       }
-      .manifesto-label {
-        font-family: var(--font-ui);
-        font-size: 0.6875rem;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        color: var(--accent);
-        margin-bottom: 1.5rem;
-        font-weight: 500;
+      .manifesto .section-label {
+        margin-bottom: clamp(1.75rem, 4vh, 2.75rem);
       }
       .manifesto-intro {
-        margin-bottom: 2.5rem;
-        color: var(--ink);
+        font-family: var(--font-display);
+        font-weight: 380;
+        font-size: clamp(1.25rem, 1.05rem + 1vw, 1.75rem);
+        line-height: 1.4;
+        max-width: 30em;
+        margin-bottom: clamp(2.75rem, 7vh, 4.5rem);
+        text-wrap: pretty;
       }
-
-      /* ── VALUES BLOCK ──────────────────── */
-      .values-block {
-        margin-bottom: 2.5rem;
+      .values {
+        list-style: none;
+        border-top: 1px solid var(--hairline);
       }
-      .value-item {
-        border-left: 2px solid var(--accent);
-        padding-left: 1.25rem;
-        margin-bottom: 2rem;
-        border-radius: 0;
+      .value {
+        display: grid;
+        grid-template-columns: clamp(3.5rem, 9vw, 7rem) minmax(0, 1fr);
+        gap: clamp(1rem, 3vw, 2.5rem);
+        align-items: start;
+        padding-block: clamp(1.75rem, 4.5vh, 3rem);
+        border-bottom: 1px solid var(--hairline);
+      }
+      .value-num {
+        font-family: var(--font-display);
+        font-weight: 330;
+        font-style: italic;
+        font-size: clamp(2.25rem, 6vw, 4.5rem);
+        line-height: 1;
+        color: var(--green);
+        opacity: 0.32;
+        letter-spacing: -0.02em;
       }
       .value-left {
-        font-family: var(--font-body);
-        font-size: 1.5rem;
-        font-weight: 500;
-        line-height: 1.35;
+        font-family: var(--font-display);
+        font-weight: 480;
+        font-size: clamp(1.4rem, 1.05rem + 2vw, 2.5rem);
+        line-height: 1.18;
+        letter-spacing: -0.01em;
         color: var(--ink);
-        margin-bottom: 0.3rem;
+        text-wrap: balance;
+        margin-bottom: 0.45em;
       }
       .value-right {
         font-family: var(--font-body);
         font-style: italic;
-        font-size: 0.9rem;
+        font-size: clamp(0.95rem, 0.9rem + 0.3vw, 1.125rem);
         color: var(--muted);
+        max-width: 44ch;
       }
-
+      .value-right::before {
+        content: "— ";
+        color: var(--amber);
+      }
       .manifesto-closing {
         font-style: italic;
         color: var(--muted);
-        margin-top: 1.5rem;
+        margin-top: clamp(1.75rem, 4vh, 2.5rem);
+        max-width: var(--measure);
+      }
+      .print-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: var(--font-ui);
+        font-weight: 500;
+        font-size: 0.6875rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted);
+        text-decoration: none;
+        margin-top: clamp(1.5rem, 3vh, 2rem);
+        padding-bottom: 0.2em;
+        border-bottom: 1px solid var(--hairline);
+        transition: color 0.2s, border-color 0.2s;
+      }
+      .print-link::before {
+        content: "↳";
+        color: var(--amber);
+        font-family: var(--font-body);
+      }
+      .print-link:hover,
+      .print-link:focus-visible {
+        color: var(--green);
+        border-color: var(--green);
       }
 
       /* ── PRINCIPLES ────────────────────── */
       .principles {
-        margin-bottom: 5rem;
+        padding-block: clamp(3.5rem, 9vh, 6.5rem);
       }
-      .principles-label {
-        font-family: var(--font-ui);
-        font-size: 0.6875rem;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        color: var(--accent);
-        margin-bottom: 2.5rem;
-        font-weight: 500;
+      .principles .section-label {
+        margin-bottom: clamp(2.25rem, 5vh, 3.5rem);
       }
       .principle-group {
-        margin-bottom: 2.25rem;
+        display: grid;
+        grid-template-columns: minmax(12rem, 1fr) minmax(0, 2.2fr);
+        gap: clamp(1.25rem, 4vw, 4rem);
+        padding-block: clamp(1.75rem, 4vh, 2.75rem);
+        border-top: 1px solid var(--hairline);
+      }
+      .principle-group:last-child {
+        border-bottom: 1px solid var(--hairline);
       }
       .principle-group-heading {
-        font-family: var(--font-ui);
-        font-size: 0.6875rem;
-        letter-spacing: 0.04em;
-        color: var(--accent);
-        margin-bottom: 0.75rem;
+        font-family: var(--font-display);
         font-weight: 500;
+        font-size: clamp(1.125rem, 1rem + 0.6vw, 1.4375rem);
+        line-height: 1.3;
+        color: var(--green);
+        text-wrap: balance;
+        position: sticky;
+        top: 5rem;
+        align-self: start;
+      }
+      .principle-items {
+        display: flex;
+        flex-direction: column;
+        gap: 1.4rem;
       }
       .principle-item {
-        display: flex;
-        gap: 0.75rem;
-        margin-bottom: 0.7rem;
-        line-height: 1.6;
+        display: grid;
+        grid-template-columns: 2.25rem minmax(0, 1fr);
+        gap: 0.85rem;
+        max-width: var(--measure);
       }
       .principle-num {
-        font-family: var(--font-ui);
-        font-size: 0.75rem;
-        color: var(--accent);
-        flex-shrink: 0;
-        width: 1.5em;
+        font-family: var(--font-display);
+        font-style: italic;
+        font-weight: 400;
+        font-size: 1.05rem;
+        color: var(--amber);
         text-align: right;
-        padding-top: 0.1em;
+        padding-top: 0.18em;
+        line-height: 1;
       }
       .principle-text {
         color: var(--ink);
       }
 
-      /* ── PRINT LINK ────────────────────── */
-      .print-link {
-        display: inline-block;
-        font-family: var(--font-ui);
-        font-size: 0.625rem;
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-        color: var(--muted);
-        text-decoration: none;
-        border-bottom: 1px solid var(--hairline);
-        margin-bottom: 5rem;
-        transition: color 0.15s, border-color 0.15s;
-      }
-      .print-link:hover,
-      .print-link:focus-visible {
-        color: var(--accent);
-        border-color: var(--accent);
-      }
-
-      /* ── SIGN FORM ─────────────────────── */
+      /* ── SIGN (dark band) ──────────────── */
       .sign {
-        margin-bottom: 5rem;
-        padding-top: 3rem;
-        border-top: 1px solid var(--hairline);
+        background:
+          radial-gradient(120% 90% at 85% 110%, var(--green-deep) 0%, transparent 60%),
+          var(--green-night);
+        color: var(--cream);
+        color-scheme: dark;
+        padding-block: clamp(4rem, 10vh, 7rem);
+        position: relative;
+        overflow: clip;
       }
-      .sign h2 {
-        font-family: var(--font-ui);
-        font-size: 0.6875rem;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        color: var(--accent);
-        margin-bottom: 0.35rem;
-        font-weight: 500;
+      .sign-arcs {
+        position: absolute;
+        left: max(-7rem, -9vw);
+        top: -38%;
+        width: clamp(18rem, 40vw, 36rem);
+        height: auto;
+        color: var(--cream);
+        opacity: 0.07;
+        pointer-events: none;
+        transform: scaleY(-1);
       }
-      .sign-intro {
-        color: var(--muted);
-        font-size: 0.95rem;
-        margin-bottom: 2rem;
+      .sign .section-label {
+        color: var(--cream-dim);
       }
-
+      .sign .section-label::before {
+        background: var(--amber);
+      }
+      .sign-heading {
+        font-family: var(--font-display);
+        font-weight: 430;
+        font-size: clamp(1.875rem, 1.4rem + 2.4vw, 3.25rem);
+        line-height: 1.1;
+        letter-spacing: -0.01em;
+        margin-top: 1.25rem;
+        margin-bottom: clamp(2.25rem, 5vh, 3.25rem);
+        text-wrap: balance;
+        max-width: 22em;
+      }
       .sign-form {
-        display: flex;
-        flex-direction: column;
-        gap: 1.25rem;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem 2rem;
+        max-width: 46rem;
       }
       .form-row {
         display: flex;
         flex-direction: column;
-        gap: 0.2rem;
+        gap: 0.45rem;
+      }
+      .form-row.span-2 {
+        grid-column: 1 / -1;
       }
       .form-row label {
         font-family: var(--font-ui);
-        font-size: 0.625rem;
-        letter-spacing: 0.04em;
+        font-weight: 500;
+        font-size: 0.6875rem;
+        letter-spacing: 0.14em;
         text-transform: uppercase;
-        color: var(--muted);
+        color: var(--cream-dim);
       }
       .form-row input,
       .form-row select,
       .form-row textarea {
         font-family: var(--font-body);
-        font-size: 0.95rem;
-        padding: 0.55em 0.75em;
-        border: 1px solid var(--hairline);
-        border-radius: 2px;
-        background: #fff;
+        font-size: 1rem;
+        padding: 0.7em 0.9em;
+        border: 1px solid rgba(22, 41, 31, 0.2);
+        border-radius: 3px;
+        background: #efe9d8;
         color: var(--ink);
-        transition: border-color 0.15s;
+        color-scheme: light;
+        transition: border-color 0.2s, box-shadow 0.2s;
         -webkit-appearance: none;
         appearance: none;
+        width: 100%;
       }
       .form-row input:focus,
       .form-row select:focus,
       .form-row textarea:focus {
         outline: none;
-        border-color: var(--accent);
+        border-color: var(--amber);
+        box-shadow: 0 0 0 3px rgba(200, 132, 46, 0.35);
       }
       .form-row input::placeholder,
       .form-row textarea::placeholder {
-        color: var(--hairline);
+        color: rgba(33, 38, 31, 0.42);
         font-style: italic;
       }
       .form-row select {
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235B6B78' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2321261F' fill='none' stroke-width='1.5' stroke-opacity='0.6'/%3E%3C/svg%3E");
         background-repeat: no-repeat;
-        background-position: right 0.75rem center;
-        padding-right: 2rem;
+        background-position: right 0.85rem center;
+        padding-right: 2.25rem;
+      }
+      .form-row select:invalid {
+        color: rgba(33, 38, 31, 0.5);
       }
       .form-row textarea {
         resize: vertical;
-        min-height: 4.5em;
+        min-height: 5.5em;
       }
       .field-note {
-        font-size: 0.7rem;
-        color: var(--muted);
+        font-size: 0.75rem;
+        color: rgba(243, 237, 218, 0.45);
         font-style: italic;
-        margin-top: 0.15rem;
       }
       .char-counter {
         font-size: 0.625rem;
-        color: var(--hairline);
+        color: rgba(243, 237, 218, 0.4);
         text-align: right;
         font-family: var(--font-ui);
+        letter-spacing: 0.08em;
       }
-
       .form-checkbox {
         flex-direction: row;
         align-items: flex-start;
-        gap: 0.5rem;
+        gap: 0.65rem;
       }
       .form-checkbox input[type="checkbox"] {
-        width: auto;
-        margin-top: 0.15em;
+        width: 1rem;
+        height: 1rem;
+        margin-top: 0.2em;
         flex-shrink: 0;
-        accent-color: var(--accent);
+        accent-color: var(--amber);
       }
       .form-checkbox label {
         text-transform: none;
+        letter-spacing: 0;
         font-family: var(--font-body);
-        font-size: 0.85rem;
-        color: var(--muted);
+        font-size: 0.9375rem;
+        color: var(--cream-dim);
+        font-weight: 400;
       }
-
+      .form-actions {
+        grid-column: 1 / -1;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+      }
       .btn-submit {
         font-family: var(--font-ui);
-        font-size: 0.6875rem;
-        letter-spacing: 0.06em;
+        font-weight: 600;
+        font-size: 0.75rem;
+        letter-spacing: 0.16em;
         text-transform: uppercase;
-        padding: 0.65em 1.75em;
-        background: var(--ink);
-        color: #fff;
+        padding: 1em 2.6em;
+        background: var(--cream);
+        color: var(--green-night);
         border: none;
-        border-radius: 2px;
+        border-radius: 999px;
         cursor: pointer;
-        transition: background 0.15s;
-        align-self: flex-start;
+        transition: background 0.2s, transform 0.2s var(--ease-out);
         -webkit-appearance: none;
         appearance: none;
       }
-      .btn-submit:hover,
-      .btn-submit:focus-visible {
-        background: var(--accent);
+      .btn-submit:hover {
+        background: var(--amber);
+        color: var(--green-night);
+        transform: translateY(-2px);
       }
       .btn-submit:focus-visible {
-        outline: 2px solid var(--accent);
-        outline-offset: 2px;
+        outline: 2px solid var(--amber);
+        outline-offset: 3px;
       }
-
       .privacy-note {
-        font-size: 0.7rem;
-        color: var(--hairline);
+        font-size: 0.75rem;
+        color: rgba(243, 237, 218, 0.45);
         font-style: italic;
-        margin-top: 0.5rem;
+        max-width: 52ch;
       }
-
       .thanks-state {
         display: none;
-        padding: 2rem 0;
+        padding: 2.5rem 0 1rem;
       }
       .thanks-state.visible {
         display: block;
       }
       .thanks-heading {
-        font-family: var(--font-body);
-        font-size: 1.25rem;
-        font-weight: 500;
-        color: var(--ink);
+        font-family: var(--font-display);
+        font-size: clamp(1.75rem, 3vw, 2.5rem);
+        font-weight: 430;
+        color: var(--cream);
         margin-bottom: 0.4rem;
       }
       .thanks-msg {
-        color: var(--muted);
+        color: var(--cream-dim);
       }
 
       /* ── SIGNATORIES ───────────────────── */
       .signatories {
-        margin-bottom: 5rem;
-        padding-top: 3rem;
-        border-top: 1px solid var(--hairline);
+        padding-block: clamp(3.5rem, 8vh, 5.5rem);
       }
-      .signatories h2 {
-        font-family: var(--font-ui);
-        font-size: 0.6875rem;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        color: var(--accent);
-        margin-bottom: 1.5rem;
-        font-weight: 500;
+      .signatories .section-label {
+        margin-bottom: 1.75rem;
       }
       .signatories-empty {
         color: var(--muted);
         font-style: italic;
-        font-size: 0.9rem;
       }
       .signatory-entry {
         margin-bottom: 1.5rem;
+        max-width: var(--measure);
       }
       .signatory-name {
         font-weight: 500;
         color: var(--ink);
       }
       .signatory-meta {
-        font-size: 0.85rem;
+        font-size: 0.875rem;
         color: var(--muted);
-        margin-top: 0.1rem;
       }
       .signatory-comment {
         font-style: italic;
         color: var(--muted);
-        font-size: 0.85rem;
-        margin-top: 0.25rem;
-        padding-left: 0.5rem;
-        border-left: 2px solid var(--hairline);
+        font-size: 0.9375rem;
+        margin-top: 0.3rem;
+        padding-left: 0.75rem;
+        border-left: 2px solid var(--amber);
       }
 
       /* ── FOOTER ────────────────────────── */
       .site-footer {
         border-top: 1px solid var(--hairline);
-        padding-top: 2rem;
-        font-size: 0.75rem;
-        color: var(--hairline);
-        display: flex;
-        flex-direction: column;
-        gap: 0.6rem;
+        padding-block: 2.25rem 3rem;
       }
-      .footer-links {
+      .site-footer .wrap {
         display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: baseline;
         gap: 1rem;
-        font-family: var(--font-ui);
-        font-size: 0.625rem;
-        letter-spacing: 0.04em;
       }
-      .footer-links a {
-        color: var(--hairline);
-        text-decoration: none;
-        transition: color 0.15s;
+      .footer-brand {
+        font-family: var(--font-display);
+        font-weight: 550;
+        font-size: 0.9375rem;
+        letter-spacing: 0.06em;
+        color: var(--ink);
       }
-      .footer-links a:hover,
-      .footer-links a:focus-visible {
+      .footer-brand .dot {
+        display: inline-block;
+        width: 0.28em;
+        height: 0.28em;
+        border-radius: 50%;
+        background: var(--amber);
+        margin-left: 0.15em;
+      }
+      .footer-note {
+        font-size: 0.8125rem;
         color: var(--muted);
+        max-width: 52ch;
       }
-      .footer-links span {
-        color: var(--hairline);
+
+      /* ── REVEAL ANIMATIONS ─────────────── */
+      .reveal {
+        opacity: 0;
+        transform: translateY(26px);
+        transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+        transition-delay: var(--d, 0s);
+      }
+      .reveal.in-view {
+        opacity: 1;
+        transform: none;
+      }
+      @keyframes rise {
+        from {
+          opacity: 0;
+          transform: translateY(26px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      .rise {
+        animation: rise 0.9s var(--ease-out) both;
+        animation-delay: var(--d, 0s);
       }
 
       /* ── FOCUS ─────────────────────────── */
       :focus-visible {
-        outline: 2px solid var(--accent);
+        outline: 2px solid var(--green);
         outline-offset: 2px;
+      }
+      .sign :focus-visible {
+        outline-color: var(--amber);
+      }
+
+      /* ── RESPONSIVE ────────────────────── */
+      @media (max-width: 860px) {
+        .preamble-grid,
+        .principle-group {
+          grid-template-columns: 1fr;
+          gap: 1.25rem;
+        }
+        .preamble .section-label,
+        .principle-group-heading {
+          position: static;
+        }
+        .hero-arcs {
+          right: -22vw;
+          bottom: -12%;
+          opacity: 0.09;
+        }
+      }
+      @media (max-width: 640px) {
+        .sign-form {
+          grid-template-columns: 1fr;
+          gap: 1.25rem;
+        }
+        .form-row.span-2 {
+          grid-column: auto;
+        }
+        .value {
+          grid-template-columns: 1fr;
+          gap: 0.35rem;
+        }
+        .value-num {
+          font-size: 1.5rem;
+          opacity: 0.45;
+        }
+        .header-right {
+          gap: 0.75rem;
+        }
+        .draft-tag {
+          font-size: 0.5625rem;
+          padding: 0.25em 0.7em;
+        }
+        .principle-item {
+          grid-template-columns: 1.75rem minmax(0, 1fr);
+          gap: 0.65rem;
+        }
       }
 
       /* ── REDUCED MOTION ────────────────── */
       @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
         *,
         *::before,
         *::after {
           transition-duration: 0s !important;
+          animation-duration: 0s !important;
+          animation-delay: 0s !important;
         }
-      }
-
-      /* ── MOBILE ────────────────────────── */
-      @media (max-width: 480px) {
-        body {
-          padding: 2rem 1.25rem 4rem;
-        }
-        .value-left {
-          font-size: 1.2rem;
-        }
-        .site-header {
-          margin-bottom: 3rem;
+        .reveal {
+          opacity: 1;
+          transform: none;
         }
       }
     </style>
 
     <!-- Print stylesheet -->
-    <style is:global media="print">
-      body {
-        max-width: none;
-        padding: 0;
-        font-size: 11pt;
-        line-height: 1.5;
-        color: #000;
-        background: #fff;
-      }
-      .site-header,
-      .preamble,
-      .principles,
-      .sign,
-      .signatories,
-      .site-footer,
-      .print-link {
-        display: none;
-      }
-      .manifesto {
-        margin-bottom: 2rem;
-      }
-      .wordmark-block {
-        margin-bottom: 0.5rem;
-      }
-      .wordmark-block .subtitle {
-        font-size: 9pt;
-      }
-      .value-left {
-        font-size: 14pt;
-      }
-      .value-right {
-        font-size: 9pt;
-      }
-      .manifesto-closing {
-        font-size: 9pt;
-      }
-      .value-item {
-        border-left-color: #000;
-        margin-bottom: 1rem;
+    <style is:global>
+      @media print {
+        body {
+          background: #fff;
+          color: #000;
+        }
+        body::after {
+          display: none;
+        }
+        .site-header,
+        .preamble,
+        .principles,
+        .sign,
+        .signatories,
+        .site-footer,
+        .print-link,
+        .hero-arcs,
+        .hero-rule,
+        .hero-tagline {
+          display: none !important;
+        }
+        .hero {
+          padding: 0 0 1rem;
+        }
+        .hero-wordmark {
+          font-size: 28pt;
+          color: #000;
+        }
+        .hero-subtitle {
+          color: #000;
+          font-size: 9pt;
+          margin-bottom: 0.5rem;
+        }
+        .hero-etymology {
+          font-size: 9pt;
+          margin-top: 0.25rem;
+        }
+        .manifesto {
+          background: none;
+          border: none;
+          padding: 1rem 0 0;
+        }
+        .manifesto .section-label {
+          color: #000;
+        }
+        .manifesto .section-label::before {
+          background: #000;
+        }
+        .manifesto-intro {
+          font-size: 12pt;
+        }
+        .value {
+          border-color: #ccc;
+          padding-block: 0.75rem;
+        }
+        .value-num {
+          color: #000;
+          opacity: 0.4;
+          font-size: 16pt;
+        }
+        .value-left {
+          font-size: 14pt;
+        }
+        .value-right {
+          font-size: 9pt;
+          color: #444;
+        }
+        .value-right::before {
+          color: #000;
+        }
+        .manifesto-closing {
+          font-size: 9pt;
+          color: #444;
+        }
+        .reveal {
+          opacity: 1 !important;
+          transform: none !important;
+        }
       }
     </style>
   </head>
   <body>
     <!-- HEADER -->
     <header class="site-header">
-      <span class="draft-tag">{t.draft}</span>
-      <nav class="lang-switcher" aria-label={t.lang === "de" ? "Sprachauswahl" : t.lang === "fr" ? "Sélection de langue" : "Selezione lingua"}>
-        {["de", "fr", "it"].map((l, i) => (
-          <>
-            {i > 0 && <span>·</span>}
-            <a
-              href={`/${l}/`}
-              aria-current={l === lang ? "page" : undefined}
-              hreflang={l}
-              lang={l}
-            >
-              {CONTENT[l].langLabel}
-            </a>
-          </>
-        ))}
-      </nav>
+      <div class="wrap">
+        <a class="header-brand" href={`/${lang}/`}>{t.wordmark}<span class="dot"></span></a>
+        <div class="header-right">
+          <span class="draft-tag">{t.draft}</span>
+          <nav class="lang-switcher" aria-label={t.lang === "de" ? "Sprachauswahl" : t.lang === "fr" ? "Sélection de langue" : "Selezione lingua"}>
+            {["de", "fr", "it"].map((l, i) => (
+              <>
+                {i > 0 && <span>·</span>}
+                <a
+                  href={`/${l}/`}
+                  aria-current={l === lang ? "page" : undefined}
+                  hreflang={l}
+                  lang={l}
+                >
+                  {CONTENT[l].langLabel}
+                </a>
+              </>
+            ))}
+          </nav>
+        </div>
+      </div>
     </header>
 
     <main>
       <slot />
     </main>
 
-    <!-- Minimal JS for form UX only -->
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      <div class="wrap">
+        <span class="footer-brand">{t.wordmark}<span class="dot"></span></span>
+        <p class="footer-note">{t.footer}</p>
+      </div>
+    </footer>
+
     <script>
+      // Scroll reveal
+      const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const revealEls = document.querySelectorAll(".reveal");
+      if (prefersReduced || !("IntersectionObserver" in window)) {
+        revealEls.forEach((el) => el.classList.add("in-view"));
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("in-view");
+                io.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+        );
+        revealEls.forEach((el) => io.observe(el));
+      }
+
       // Comment character counter
       const comment = document.getElementById("endorse-comment");
       const counter = document.getElementById("comment-counter");
@@ -624,7 +992,7 @@ const otherLangs = ["de", "fr", "it"].filter((l) => l !== lang);
         comment.addEventListener("input", () => {
           const len = comment.value.length;
           counter.textContent = `${len}/280`;
-          counter.style.color = len > 260 ? "var(--accent)" : "";
+          counter.style.color = len > 260 ? "var(--amber)" : "";
         });
       }
 

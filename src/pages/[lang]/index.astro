@@ -18,138 +18,186 @@ let principleNum = 0;
 ---
 
 <Base lang={lang}>
-  <!-- ── WORDMARK BLOCK ──────────────────── -->
-  <header class="wordmark-block">
-    <h1>
-      <span class="wordmark">{t.wordmark}</span><span class="dot"></span>
-    </h1>
-    <p class="subtitle">{t.subtitle}</p>
-    <p class="etymology">{t.etymology}</p>
+  <!-- ── HERO ────────────────────────────── -->
+  <header class="hero">
+    <svg class="hero-arcs" viewBox="0 0 600 360" fill="none" aria-hidden="true">
+      {[60, 110, 160, 210, 260, 310].map((r) => (
+        <path
+          d={`M ${300 - r} 360 A ${r} ${r} 0 0 1 ${300 + r} 360`}
+          stroke="currentColor"
+          stroke-width="1.5"
+        />
+      ))}
+      <circle cx="300" cy="30" r="7" fill="currentColor" />
+    </svg>
+    <div class="wrap hero-inner">
+      <p class="hero-subtitle rise" style="--d: 0.05s">{t.subtitle}</p>
+      <h1 class="hero-wordmark rise" style="--d: 0.15s">
+        {t.wordmark}<span class="dot"></span>
+      </h1>
+      <p class="hero-etymology rise" style="--d: 0.3s">{t.etymology}</p>
+      <hr class="hero-rule rise" style="--d: 0.4s" />
+      <p class="hero-tagline rise" style="--d: 0.5s">{t.tagline}</p>
+    </div>
   </header>
 
   <!-- ── PREAMBLE ────────────────────────── -->
   <section class="preamble">
-    <h2>{t.preamble.heading}</h2>
-    <p>{t.preamble.p1}</p>
-    <p>{t.preamble.p2}</p>
+    <div class="wrap preamble-grid">
+      <h2 class="section-label reveal">{t.preamble.heading}</h2>
+      <div class="prose reveal" style="--d: 0.1s">
+        <p>{t.preamble.p1}</p>
+        <p>{t.preamble.p2}</p>
+      </div>
+    </div>
   </section>
 
   <!-- ── THE MANIFESTO ───────────────────── -->
   <section class="manifesto" id="manifesto">
-    <h2 class="manifesto-label">{t.manifesto.label}</h2>
-    <p class="manifesto-intro">{t.manifesto.intro}</p>
+    <div class="wrap">
+      <h2 class="section-label reveal">{t.manifesto.label}</h2>
+      <p class="manifesto-intro reveal" style="--d: 0.1s">{t.manifesto.intro}</p>
 
-    <div class="values-block">
-      {t.manifesto.values.map((v) => (
-        <div class="value-item">
-          <p class="value-left">{v.left}</p>
-          <p class="value-right">{t.manifesto.connector} {v.right}</p>
-        </div>
-      ))}
+      <ol class="values">
+        {t.manifesto.values.map((v, i) => (
+          <li class="value reveal" style={`--d: ${0.05 * i}s`}>
+            <span class="value-num" aria-hidden="true">0{i + 1}</span>
+            <div>
+              <p class="value-left">{v.left}</p>
+              <p class="value-right">{t.manifesto.connector} {v.right}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <p class="manifesto-closing reveal">{t.manifesto.closing}</p>
+      <a href="#" class="print-link reveal" id="print-link">{t.printLink}</a>
     </div>
-
-    <p class="manifesto-closing">{t.manifesto.closing}</p>
   </section>
-
-  <!-- ── PRINT LINK ──────────────────────── -->
-  <a href="#" class="print-link" id="print-link">{t.printLink}</a>
 
   <!-- ── THE PRINCIPLES ──────────────────── -->
   <section class="principles" id="principles">
-    <h2 class="principles-label">{t.principles.label}</h2>
+    <div class="wrap">
+      <h2 class="section-label reveal">{t.principles.label}</h2>
 
-    {t.principles.groups.map((group) => (
-      <div class="principle-group">
-        <h3 class="principle-group-heading">{group.heading}</h3>
-        {group.items.map((item) => {
-          principleNum++;
-          return (
-            <div class="principle-item">
-              <span class="principle-num">{principleNum}</span>
-              <span class="principle-text">{item}</span>
-            </div>
-          );
-        })}
-      </div>
-    ))}
+      {t.principles.groups.map((group) => (
+        <div class="principle-group reveal">
+          <h3 class="principle-group-heading">{group.heading}</h3>
+          <div class="principle-items">
+            {group.items.map((item) => {
+              principleNum++;
+              return (
+                <div class="principle-item">
+                  <span class="principle-num" aria-hidden="true">{principleNum}</span>
+                  <p class="principle-text">{item}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ))}
+    </div>
   </section>
 
   <!-- ── SIGN ────────────────────────────── -->
   <section class="sign" id="sign">
-    <h2>{t.sign.heading}</h2>
-    <p class="sign-intro">{t.sign.line}</p>
+    <svg class="sign-arcs" viewBox="0 0 600 360" fill="none" aria-hidden="true">
+      {[60, 110, 160, 210, 260, 310].map((r) => (
+        <path
+          d={`M ${300 - r} 360 A ${r} ${r} 0 0 1 ${300 + r} 360`}
+          stroke="currentColor"
+          stroke-width="1.5"
+        />
+      ))}
+    </svg>
+    <div class="wrap">
+      <h2 class="section-label reveal">{t.sign.heading}</h2>
+      <p class="sign-heading reveal" style="--d: 0.08s">{t.sign.line}</p>
 
-    <form class="sign-form" id="endorse-form" name="endorse" method="POST" data-netlify="true" netlify-honeypot="bot-field">
-      <div style="display:none" aria-hidden="true"><input name="bot-field" /></div>
-      <input type="hidden" name="language" value={lang} />
+      <form
+        class="sign-form reveal"
+        style="--d: 0.16s"
+        id="endorse-form"
+        name="endorse"
+        method="POST"
+        data-netlify="true"
+        netlify-honeypot="bot-field"
+      >
+        <div style="display:none" aria-hidden="true"><input name="bot-field" /></div>
+        <input type="hidden" name="language" value={lang} />
 
-      <div class="form-row">
-        <label for="endorse-name">{t.sign.nameLabel}</label>
-        <input type="text" id="endorse-name" name="name" placeholder={t.sign.namePlaceholder} required autocomplete="name" />
+        <div class="form-row">
+          <label for="endorse-name">{t.sign.nameLabel}</label>
+          <input type="text" id="endorse-name" name="name" placeholder={t.sign.namePlaceholder} required autocomplete="name" />
+        </div>
+
+        <div class="form-row">
+          <label for="endorse-email">{t.sign.emailLabel}</label>
+          <input type="email" id="endorse-email" name="email" placeholder={t.sign.emailPlaceholder} autocomplete="email" />
+          <span class="field-note">{t.sign.emailNote}</span>
+        </div>
+
+        <div class="form-row">
+          <label for="endorse-role">{t.sign.roleLabel}</label>
+          <select id="endorse-role" name="role" required>
+            <option value="">{t.sign.roleLabel}</option>
+            {t.sign.roleOptions.map((opt) => (
+              <option value={opt}>{opt}</option>
+            ))}
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label for="endorse-canton">{t.sign.cantonLabel}</label>
+          <select id="endorse-canton" name="canton">
+            <option value="">{t.sign.cantonPlaceholder}</option>
+            {t.cantons.map((c) => (
+              <option value={c}>{c}</option>
+            ))}
+          </select>
+        </div>
+
+        <div class="form-row span-2">
+          <label for="endorse-comment">{t.sign.commentLabel}</label>
+          <textarea
+            id="endorse-comment"
+            name="comment"
+            placeholder={t.sign.commentPlaceholder}
+            maxlength="280"
+          ></textarea>
+          <span class="char-counter" id="comment-counter">0/280</span>
+        </div>
+
+        <div class="form-row form-checkbox span-2">
+          <input type="checkbox" id="endorse-updates" name="updates" value="yes" />
+          <label for="endorse-updates">{t.sign.updatesLabel}</label>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-submit">{t.sign.submit}</button>
+          <p class="privacy-note">{t.sign.privacy}</p>
+        </div>
+      </form>
+
+      <div class="thanks-state" id="thanks-state" role="status">
+        <p class="thanks-heading">{t.sign.thanks}</p>
+        <p class="thanks-msg">{t.sign.thanksMsg}</p>
       </div>
-
-      <div class="form-row">
-        <label for="endorse-email">{t.sign.emailLabel}</label>
-        <input type="email" id="endorse-email" name="email" placeholder={t.sign.emailPlaceholder} autocomplete="email" />
-        <span class="field-note">{t.sign.emailNote}</span>
-      </div>
-
-      <div class="form-row">
-        <label for="endorse-role">{t.sign.roleLabel}</label>
-        <select id="endorse-role" name="role" required>
-          <option value="">{t.sign.roleLabel}</option>
-          {t.sign.roleOptions.map((opt) => (
-            <option value={opt}>{opt}</option>
-          ))}
-        </select>
-      </div>
-
-      <div class="form-row">
-        <label for="endorse-canton">{t.sign.cantonLabel}</label>
-        <select id="endorse-canton" name="canton">
-          <option value="">{t.sign.cantonPlaceholder}</option>
-          {t.cantons.map((c) => (
-            <option value={c}>{c}</option>
-          ))}
-        </select>
-      </div>
-
-      <div class="form-row">
-        <label for="endorse-comment">{t.sign.commentLabel}</label>
-        <textarea
-          id="endorse-comment"
-          name="comment"
-          placeholder={t.sign.commentPlaceholder}
-          maxlength="280"
-        ></textarea>
-        <span class="char-counter" id="comment-counter">0/280</span>
-      </div>
-
-      <div class="form-row form-checkbox">
-        <input type="checkbox" id="endorse-updates" name="updates" value="yes" />
-        <label for="endorse-updates">{t.sign.updatesLabel}</label>
-      </div>
-
-      <button type="submit" class="btn-submit">{t.sign.submit}</button>
-      <p class="privacy-note">{t.sign.privacy}</p>
-    </form>
-
-    <div class="thanks-state" id="thanks-state" role="status">
-      <p class="thanks-heading">{t.sign.thanks}</p>
-      <p class="thanks-msg">{t.sign.thanksMsg}</p>
     </div>
   </section>
 
   <!-- ── SIGNATORIES ─────────────────────── -->
   <section class="signatories" id="signatories">
-    <h2>{t.signatories.heading}</h2>
-    <p class="signatories-empty">{t.signatories.empty}</p>
-    <!--
-      TODO: When integrating a backend, render entries here:
-      <div class="signatory-entry">
-        <p class="signatory-name">Name, <span class="signatory-meta">Rolle, Kanton</span></p>
-        <p class="signatory-comment">"Comment"</p>
-      </div>
-    -->
+    <div class="wrap">
+      <h2 class="section-label reveal">{t.signatories.heading}</h2>
+      <p class="signatories-empty reveal">{t.signatories.empty}</p>
+      <!--
+        TODO: When integrating a backend, render entries here:
+        <div class="signatory-entry">
+          <p class="signatory-name">Name, <span class="signatory-meta">Rolle, Kanton</span></p>
+          <p class="signatory-comment">"Comment"</p>
+        </div>
+      -->
+    </div>
   </section>
 </Base>
