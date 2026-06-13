@@ -29,10 +29,13 @@ Every known TODO, open decision, and integration point. Check things off as they
 - [ ] Update `public/robots.txt` domain
 - [ ] Update OG URLs in `src/layouts/Base.astro`
 
-### 5. Share image
-- [ ] Generate per-language 1200×630 OG image: paper background, the dot, "EDUCERE", subtitle
-- [ ] Add `og:image` meta tag to `src/layouts/Base.astro`
-- [ ] Fallback: one static image is fine
+### 5. Share image ✅ DONE
+- [x] Per-language 1200×630 OG images at `public/og/educere-{de,fr,it,en}.png`
+- [x] Full OG + Twitter card meta in `src/layouts/Base.astro`
+- [x] `site` set in `astro.config.mjs` → OG/canonical/hreflang URLs now absolute (was localhost)
+- Regenerate: edit the card template (`scripts/og-card.html` — template + per-lang text),
+  render each `?lang=xx` at 1200×630 in a headless browser, screenshot to PNG.
+  Must use a real browser (loads the Fraunces webfont; sharp/SVG won't have it).
 
 ## 🟡 P1 — Before pilot school
 

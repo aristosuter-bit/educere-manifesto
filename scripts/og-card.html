@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..650;1,9..144,300..650&family=Archivo:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1200px; height: 630px; }
+  .card {
+    width: 1200px; height: 630px; position: relative; overflow: hidden;
+    background: #f6f1e6; color: #21261f;
+    padding: 88px 90px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    font-family: "Archivo", sans-serif;
+  }
+  .card::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .arcs {
+    position: absolute; right: -120px; bottom: -240px;
+    width: 760px; height: auto; color: #2c5240; opacity: 0.11;
+  }
+  .kicker {
+    font-family: "Archivo", sans-serif; font-weight: 600;
+    font-size: 22px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: #2c5240; line-height: 1.5; max-width: 720px;
+    position: relative; z-index: 1;
+  }
+  .mid { position: relative; z-index: 1; }
+  .wordmark {
+    font-family: "Fraunces", serif; font-weight: 470;
+    font-size: 168px; line-height: 0.9; letter-spacing: -0.015em;
+    color: #21261f; display: flex; align-items: baseline; gap: 6px;
+  }
+  .wordmark .dot {
+    width: 20px; height: 20px; border-radius: 50%; background: #c8842e;
+    display: inline-block;
+  }
+  .tagline {
+    font-family: "Fraunces", serif; font-weight: 380;
+    font-size: 36px; line-height: 1.22; color: #21261f;
+    max-width: 760px; margin-top: 30px;
+  }
+  .foot {
+    position: relative; z-index: 1; display: flex; align-items: center; gap: 18px;
+    font-family: "Archivo", sans-serif; font-weight: 600;
+    font-size: 19px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: #6b6f60;
+  }
+  .foot .rule { width: 56px; height: 2px; background: #c8842e; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <svg class="arcs" viewBox="0 0 600 360" fill="none" aria-hidden="true">
+      <path d="M 290 360 A 10 10 0 0 1 310 360" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M 240 360 A 60 60 0 0 1 360 360" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M 190 360 A 110 110 0 0 1 410 360" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M 140 360 A 160 160 0 0 1 460 360" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M 90 360 A 210 210 0 0 1 510 360" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M 40 360 A 260 260 0 0 1 560 360" stroke="currentColor" stroke-width="1.5"/>
+      <circle cx="300" cy="30" r="7" fill="currentColor"/>
+    </svg>
+    <p class="kicker" id="kicker"></p>
+    <div class="mid">
+      <div class="wordmark">EDUCERE<span class="dot"></span></div>
+      <p class="tagline" id="tagline"></p>
+    </div>
+    <div class="foot"><span class="rule"></span><span>educeremanifesto.org</span></div>
+  </div>
+  <script>
+    const DATA = {
+      de: {
+        kicker: "Ein Manifest der Lehrerinnen und Lehrer für die Primarschule",
+        tagline: "Zeit, Vertrauen und Fokus der Lehrperson zurückgewinnen – damit jedes Kind bereit für die Welt ist.",
+      },
+      fr: {
+        kicker: "Un manifeste des enseignantes et enseignants pour l'école primaire",
+        tagline: "Rendre à l'enseignant son temps, sa confiance et son attention – pour que chaque enfant soit prêt pour le monde.",
+      },
+      it: {
+        kicker: "Un manifesto delle e degli insegnanti per la scuola elementare",
+        tagline: "Restituire all'insegnante tempo, fiducia e attenzione – perché ogni bambino sia pronto per il mondo.",
+      },
+      en: {
+        kicker: "A teachers' manifesto for primary school",
+        tagline: "Reclaiming the teacher's time, trust and focus – so that every child is ready for the world.",
+      },
+    };
+    const lang = new URLSearchParams(location.search).get("lang") || "de";
+    const d = DATA[lang] || DATA.de;
+    document.getElementById("kicker").textContent = d.kicker;
+    document.getElementById("tagline").textContent = d.tagline;
+    document.documentElement.setAttribute("data-ready", "1");
+  </script>
+</body>
+</html>
